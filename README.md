@@ -24,9 +24,12 @@ collect NCCL traces for the CCL-Bench project.
 
 ## Running the launcher
 
+Replace `torchtitan/models/llama3/train_configs/llama3_8b.toml` with `train_llama_config_dp.toml`
+
 Run 10 iterations of training on the C4 dataset:
 ```
 CONFIG_FILE="./torchtitan/models/llama3/train_configs/llama3_8b.toml" \
-./run_train.sh \
-  --training.steps=10
+./run_train.sh
 ```
+
+Note that on a successful run the last message should be `Process group destroyed` and this is not an error.
