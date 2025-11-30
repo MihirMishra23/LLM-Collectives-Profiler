@@ -32,4 +32,6 @@ CONFIG_FILE="./torchtitan/models/llama3/train_configs/llama3_8b.toml" \
 ./run_train.sh
 ```
 
-Note that on a successful run the last message should be `Process group destroyed` and this is not an error.
+## Notes:
+- On a successful run the last message should be `Process group destroyed` — this is not an error.
+- If the training run is hanging on `Preparing c4 dataset from allenai/c4`, then make sure you've run `export HF_HOME=$PSCRATCH/huggingface` before
