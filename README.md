@@ -41,6 +41,8 @@ CONFIG_FILE="./torchtitan/models/llama3/train_configs/llama3_8b.toml" \
 ./run_train.sh
 ```
 
+The default behavior is to run with the NCCL communication backend. If you want to run with the GLOO communication backend, add the following flag to the previous command ` --comm.backend gloo`.
+
 ## Extract the metrics
 cd to the root of this repo and run `python nsys_analyzer.py <profile_dir> --config <config_file>`
 
