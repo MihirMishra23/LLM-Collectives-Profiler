@@ -523,7 +523,9 @@ def main():
         sys.exit(1)
 
     world_size = len(all_metrics)
-    output_file = build_output_filename(model_info, parallel_cfg, world_size, comm_backend)
+    analysis_dir = Path("trace_analysis")
+    analysis_dir.mkdir(parents=True, exist_ok=True)
+    output_file = analysis_dir / build_output_filename(model_info, parallel_cfg, world_size, comm_backend)
     print(f"\nWriting report to {output_file}...")
     write_report(all_metrics, output_file, batch_size, seq_length, num_iterations, parallel_cfg)
     print(f"\n✓ Analysis complete! Report saved to: {output_file}")
