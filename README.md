@@ -41,6 +41,12 @@ CONFIG_FILE="./torchtitan/models/llama3/train_configs/llama3_8b.toml" \
 ./run_train.sh
 ```
 
+## Extract the metrics
+cd to the root of this repo and run `python nsys_analyzer.py <profile_dir> --config <config_file>`
+
+For me, this command looked as follows:
+`python nsys_analyzer.py torchtitan/outputs/profile_trace/iteration_10/ --config torchtitan/torchtitan/models/llama3/train_configs/llama3_8b.toml`
+
 ## Notes:
 - On a successful run the last message should be `Process group destroyed` — this is not an error.
 - If the training run is hanging on `Preparing c4 dataset from allenai/c4`, then make sure you've run `export HF_HOME=$PSCRATCH/huggingface` before.
