@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 from collections import defaultdict
+from datetime import datetime
 import statistics
 import math
 
@@ -331,7 +332,7 @@ def calculate_traffic_distribution(all_metrics, world_size=4):
     
     return distribution
 
-def write_report(all_metrics, output_file, batch_size, seq_length, num_iterations):
+def write_report(all_metrics, output_file, batch_size, seq_length, num_iterations, parallel_cfg):
     """Write comprehensive performance report."""
     throughput = calculate_throughput(all_metrics, batch_size, seq_length, num_iterations)
     overlap = calculate_overlap(all_metrics)
@@ -345,7 +346,12 @@ def write_report(all_metrics, output_file, batch_size, seq_length, num_iteration
         f.write("=" * 80 + "\n\n")
         
         f.write(f"Configuration: {world_size} GPUs, {num_iterations} iterations\n")
-        f.write(f"Batch Size: {batch_size}, Sequence Length: {seq_length}\n\n")
+        f.write(f"Batch Size: {batch_size}, Sequence Length: {seq_length}\n")
+        if parallel_cfg:
+            f.write("Parallelism:\n")
+            for key, value in sorted(parallel_cfg.items()):
+                f.write(f"  {key}: {value}\n")
+        f.write("\n")
         
         # 1. Throughput
         f.write("=" * 80 + "\n")
@@ -421,6 +427,7 @@ def load_training_config(config_path: Path):
 
     training_cfg = config.get("training", {})
     parallel_cfg = config.get("parallelism", {})
+    model_cfg = config.get("model", {})
 
     local_batch = training_cfg.get("local_batch_size", 1)
     data_repl = parallel_cfg.get("data_parallel_replicate_degree", 1)
@@ -430,7 +437,25 @@ def load_training_config(config_path: Path):
     seq_length = int(training_cfg.get("seq_len", 0))
     num_iterations = int(training_cfg.get("steps", training_cfg.get("num_iterations", 0)))
 
-    return batch_size, seq_length, num_iterations
+    model_info = {
+        "name": model_cfg.get("name", "model"),
+        "flavor": model_cfg.get("flavor", "")
+    }
+
+    return batch_size, seq_length, num_iterations, parallel_cfg, model_info
+
+
+def build_output_filename(model_info, parallel_cfg, world_size):
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    model_name = model_info.get("name", "model")
+    flavor = model_info.get("flavor", "")
+    model_part = f"{model_name}{flavor}".replace(" ", "-")
+
+    dp_rep = int(parallel_cfg.get("data_parallel_replicate_degree", 1))
+    dp_shard = int(parallel_cfg.get("data_parallel_shard_degree", 1))
+    tp = int(parallel_cfg.get("tensor_parallel_degree", 1))
+
+    return f"nsys_{timestamp}_{model_part}_dp{dp_rep}x{dp_shard}_tp{tp}_gpu{world_size}.txt"
 
 
 def main():
@@ -470,7 +495,7 @@ def main():
         print("Error: No trace files found in the provided directories")
         sys.exit(1)
 
-    batch_size, seq_length, num_iterations = load_training_config(Path(args.config))
+    batch_size, seq_length, num_iterations, parallel_cfg, model_info = load_training_config(Path(args.config))
     print(f"Loaded training config from {args.config}")
     print(f"Analyzing {len(trace_files)} trace files from {len(args.trace_dirs)} directories...")
     print(
@@ -493,9 +518,10 @@ def main():
         print("Error: No valid trace files processed")
         sys.exit(1)
 
-    output_file = "performance_metrics.txt"
+    world_size = len(all_metrics)
+    output_file = build_output_filename(model_info, parallel_cfg, world_size)
     print(f"\nWriting report to {output_file}...")
-    write_report(all_metrics, output_file, batch_size, seq_length, num_iterations)
+    write_report(all_metrics, output_file, batch_size, seq_length, num_iterations, parallel_cfg)
     print(f"\n✓ Analysis complete! Report saved to: {output_file}")
 
 
