@@ -2,7 +2,6 @@ matplotlib
 numpy
 pandas
 torch
-torchtitan
 transformers
 datasets
 huggingface-hub
