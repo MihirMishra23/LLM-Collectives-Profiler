@@ -1,0 +1,179 @@
+================================================================================
+NSYS DISTRIBUTED TRAINING PERFORMANCE METRICS
+================================================================================
+
+Configuration: 4 GPUs, 11 iterations
+Batch Size: 1, Sequence Length: 4096
+Parallelism:
+  context_parallel_degree: 1
+  data_parallel_replicate_degree: 1
+  data_parallel_shard_degree: 1
+  pipeline_parallel_degree: 1
+  tensor_parallel_degree: 4
+
+================================================================================
+1. THROUGHPUT
+================================================================================
+Tokens per Second: 10209.67
+Samples per Second: 2.49
+Time per Iteration: 401.19 ms
+Total Execution Time: 4.41 s
+
+================================================================================
+2. COMMUNICATION-COMPUTATION OVERLAP
+================================================================================
+Average Overlap: 15.10%
+Min Overlap: 14.93%
+Max Overlap: 15.36%
+
+Per-Rank Overlap:
+  rank0_trace: 15.07%
+  rank1_trace: 15.36%
+  rank2_trace: 14.93%
+  rank3_trace: 15.03%
+
+================================================================================
+3. NETWORK LOAD (Alpha-Beta Model)
+================================================================================
+Average Collective Bandwidth: 125.70 GB/s
+Peak Bandwidth (NVLink): 600.00 GB/s
+Bandwidth Utilization: 20.95%
+Total Traffic: 48.84 GB
+
+Per-Rank Network Stats:
+
+  rank0_trace:
+    Collective Bandwidth: 125.09 GB/s
+    Simple Bandwidth: 67.91 GB/s
+    Total Bytes: 12.21 GB
+    Communication Operations: 2004
+
+    Collective Breakdown:
+      AllGather:
+        Count: 194
+        Avg BW: 38.20 GB/s
+        Median BW: 38.22 GB/s
+        Min/Max BW: 36.89 / 39.21 GB/s
+        Data Transferred: 2.44 GB
+      AllReduce:
+        Count: 199
+        Avg BW: 1.79 GB/s
+        Median BW: 1.82 GB/s
+        Min/Max BW: 0.04 / 1.93 GB/s
+        Data Transferred: 0.00 GB
+      ReduceScatter:
+        Count: 194
+        Avg BW: 146.88 GB/s
+        Median BW: 141.78 GB/s
+        Min/Max BW: 121.10 / 167.11 GB/s
+        Data Transferred: 9.76 GB
+
+  rank1_trace:
+    Collective Bandwidth: 125.93 GB/s
+    Simple Bandwidth: 67.97 GB/s
+    Total Bytes: 12.21 GB
+    Communication Operations: 2004
+
+    Collective Breakdown:
+      AllGather:
+        Count: 194
+        Avg BW: 38.17 GB/s
+        Median BW: 38.21 GB/s
+        Min/Max BW: 36.65 / 39.06 GB/s
+        Data Transferred: 2.44 GB
+      AllReduce:
+        Count: 199
+        Avg BW: 1.85 GB/s
+        Median BW: 1.89 GB/s
+        Min/Max BW: 0.06 / 1.99 GB/s
+        Data Transferred: 0.00 GB
+      ReduceScatter:
+        Count: 194
+        Avg BW: 147.94 GB/s
+        Median BW: 142.59 GB/s
+        Min/Max BW: 126.17 / 167.29 GB/s
+        Data Transferred: 9.76 GB
+
+  rank2_trace:
+    Collective Bandwidth: 125.44 GB/s
+    Simple Bandwidth: 68.13 GB/s
+    Total Bytes: 12.21 GB
+    Communication Operations: 2004
+
+    Collective Breakdown:
+      AllGather:
+        Count: 194
+        Avg BW: 38.05 GB/s
+        Median BW: 38.08 GB/s
+        Min/Max BW: 36.40 / 38.80 GB/s
+        Data Transferred: 2.44 GB
+      AllReduce:
+        Count: 199
+        Avg BW: 1.86 GB/s
+        Median BW: 1.91 GB/s
+        Min/Max BW: 0.15 / 1.99 GB/s
+        Data Transferred: 0.00 GB
+      ReduceScatter:
+        Count: 194
+        Avg BW: 147.35 GB/s
+        Median BW: 141.85 GB/s
+        Min/Max BW: 126.36 / 167.91 GB/s
+        Data Transferred: 9.76 GB
+
+  rank3_trace:
+    Collective Bandwidth: 126.34 GB/s
+    Simple Bandwidth: 68.41 GB/s
+    Total Bytes: 12.21 GB
+    Communication Operations: 2004
+
+    Collective Breakdown:
+      AllGather:
+        Count: 194
+        Avg BW: 38.06 GB/s
+        Median BW: 38.15 GB/s
+        Min/Max BW: 36.02 / 38.90 GB/s
+        Data Transferred: 2.44 GB
+      AllReduce:
+        Count: 199
+        Avg BW: 1.86 GB/s
+        Median BW: 1.92 GB/s
+        Min/Max BW: 0.11 / 1.95 GB/s
+        Data Transferred: 0.00 GB
+      ReduceScatter:
+        Count: 194
+        Avg BW: 148.47 GB/s
+        Median BW: 144.95 GB/s
+        Min/Max BW: 124.44 / 165.48 GB/s
+        Data Transferred: 9.76 GB
+
+================================================================================
+4. TRAFFIC DISTRIBUTION
+================================================================================
+
+Other:
+  Count: 4696
+  Total Traffic: 0.00 GB
+  Percent of Total Traffic: 0.00%
+  Average Time: 0.14 ms
+
+AllReduce:
+  Count: 1580
+  Total Traffic: 0.02 GB
+  Percent of Total Traffic: 0.04%
+  Average Time: 0.01 ms
+
+ReduceScatter:
+  Count: 872
+  Total Traffic: 39.06 GB
+  Percent of Total Traffic: 79.97%
+  Average Time: 0.34 ms
+
+AllGather:
+  Count: 868
+  Total Traffic: 9.76 GB
+  Percent of Total Traffic: 19.99%
+  Average Time: 0.33 ms
+
+================================================================================
+END OF REPORT
+================================================================================
