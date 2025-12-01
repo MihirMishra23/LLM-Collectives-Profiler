@@ -3,7 +3,7 @@ import json
 import sys
 from pathlib import Path
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 import statistics
 import math
 
@@ -428,6 +428,7 @@ def load_training_config(config_path: Path):
     training_cfg = config.get("training", {})
     parallel_cfg = config.get("parallelism", {})
     model_cfg = config.get("model", {})
+    comm_cfg = config.get("comm", {})
 
     local_batch = training_cfg.get("local_batch_size", 1)
     data_repl = parallel_cfg.get("data_parallel_replicate_degree", 1)
@@ -442,11 +443,13 @@ def load_training_config(config_path: Path):
         "flavor": model_cfg.get("flavor", "")
     }
 
-    return batch_size, seq_length, num_iterations, parallel_cfg, model_info
+    comm_backend = comm_cfg.get("backend", "nsys")
+
+    return batch_size, seq_length, num_iterations, parallel_cfg, model_info, comm_backend
 
 
-def build_output_filename(model_info, parallel_cfg, world_size):
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+def build_output_filename(model_info, parallel_cfg, world_size, comm_backend):
+    timestamp = datetime.now(timezone.utc).astimezone().strftime("%Y%m%d-%H%M%S")
     model_name = model_info.get("name", "model")
     flavor = model_info.get("flavor", "")
     model_part = f"{model_name}{flavor}".replace(" ", "-")
@@ -455,7 +458,8 @@ def build_output_filename(model_info, parallel_cfg, world_size):
     dp_shard = int(parallel_cfg.get("data_parallel_shard_degree", 1))
     tp = int(parallel_cfg.get("tensor_parallel_degree", 1))
 
-    return f"nsys_{timestamp}_{model_part}_dp{dp_rep}x{dp_shard}_tp{tp}_gpu{world_size}.txt"
+    prefix = comm_backend.lower() if comm_backend else "nsys"
+    return f"{prefix}_{timestamp}_{model_part}_dp{dp_rep}x{dp_shard}_tp{tp}_gpu{world_size}.txt"
 
 
 def main():
@@ -495,7 +499,7 @@ def main():
         print("Error: No trace files found in the provided directories")
         sys.exit(1)
 
-    batch_size, seq_length, num_iterations, parallel_cfg, model_info = load_training_config(Path(args.config))
+    batch_size, seq_length, num_iterations, parallel_cfg, model_info, comm_backend = load_training_config(Path(args.config))
     print(f"Loaded training config from {args.config}")
     print(f"Analyzing {len(trace_files)} trace files from {len(args.trace_dirs)} directories...")
     print(
@@ -519,7 +523,7 @@ def main():
         sys.exit(1)
 
     world_size = len(all_metrics)
-    output_file = build_output_filename(model_info, parallel_cfg, world_size)
+    output_file = build_output_filename(model_info, parallel_cfg, world_size, comm_backend)
     print(f"\nWriting report to {output_file}...")
     write_report(all_metrics, output_file, batch_size, seq_length, num_iterations, parallel_cfg)
     print(f"\n✓ Analysis complete! Report saved to: {output_file}")
