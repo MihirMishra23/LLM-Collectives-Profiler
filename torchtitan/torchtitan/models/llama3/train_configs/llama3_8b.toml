@@ -6,7 +6,7 @@ description = "Llama 3 8B training"
 
 [profiling]
 enable_profiling = true
-save_traces_folder = "profile_trace"
+save_traces_folder = "profile_trace_ncclx_dp4_tp1"
 profile_freq = 10
 
 [metrics]
