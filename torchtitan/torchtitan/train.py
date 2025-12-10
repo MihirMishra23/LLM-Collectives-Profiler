@@ -88,6 +88,7 @@ class Trainer(torch.distributed.checkpoint.stateful.Stateful):
 
         # init distributed and build meshes
         self.parallel_dims = parallel_dims = self.init_distributed()
+        self._set_profile_trace_suffix()
 
         world_mesh = parallel_dims.world_mesh
         if parallel_dims.dp_enabled:
@@ -376,6 +377,23 @@ class Trainer(torch.distributed.checkpoint.stateful.Stateful):
             ep=parallelism_config.expert_parallel_degree,
             etp=parallelism_config.expert_tensor_parallel_degree,
             world_size=world_size,
+        )
+
+    def _set_profile_trace_suffix(self) -> None:
+        profiling_cfg = self.job_config.profiling
+        if not profiling_cfg.enable_profiling:
+            return
+
+        model_cfg = self.job_config.model
+        parallelism_cfg = self.job_config.parallelism
+        suffix = (
+            f"{model_cfg.name}_{model_cfg.flavor}"
+            f"_dp{parallelism_cfg.data_parallel_replicate_degree}"
+            f"_tp{parallelism_cfg.tensor_parallel_degree}"
+            f"_ngpu{self.parallel_dims.world_size}"
+        )
+        profiling_cfg.save_traces_folder = os.path.join(
+            profiling_cfg.save_traces_folder, suffix
         )
 
     def batch_generator(

@@ -14,10 +14,11 @@ set -ex
 # COMM_MODE="local_tensor" ./run_train.sh  # for local tensor debugging mode
 NGPU=${NGPU:-"4"}
 export LOG_RANK=${LOG_RANK:-0}
-CONFIG_FILE=${CONFIG_FILE:-"./torchtitan/models/llama3/train_configs/debug_model.toml"}
+CONFIG_FILE=${CONFIG_FILE:-"./torchtitan/models/llama3/train_configs/llama3_8b.toml"}
 TRAIN_FILE=${TRAIN_FILE:-"torchtitan.train"}
 # COMM_MODE options: "fake_backend" (dry run), "local_tensor" (debug mode), or empty for normal training
 COMM_MODE=${COMM_MODE:-""}
+JOB_DUMP_FOLDER=${JOB_DUMP_FOLDER:-""}
 
 TORCHFT_LIGHTHOUSE=${TORCHFT_LIGHTHOUSE:-"http://localhost:29510"}
 
