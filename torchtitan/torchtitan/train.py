@@ -385,12 +385,18 @@ class Trainer(torch.distributed.checkpoint.stateful.Stateful):
             return
 
         model_cfg = self.job_config.model
-        parallelism_cfg = self.job_config.parallelism
+        parallel_dims = self.parallel_dims
+
+        if parallel_dims.dp_enabled:
+            dp_degree = parallel_dims.dp_replicate * parallel_dims.dp_shard
+        else:
+            dp_degree = 1
+
         suffix = (
             f"{model_cfg.name}_{model_cfg.flavor}"
-            f"_dp{parallelism_cfg.data_parallel_replicate_degree}"
-            f"_tp{parallelism_cfg.tensor_parallel_degree}"
-            f"_ngpu{self.parallel_dims.world_size}"
+            f"_dp{dp_degree}"
+            f"_tp{parallel_dims.tp}"
+            f"_ngpu{parallel_dims.world_size}"
         )
         profiling_cfg.save_traces_folder = os.path.join(
             profiling_cfg.save_traces_folder, suffix
