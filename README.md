@@ -23,8 +23,6 @@ collect NCCL traces for the CCL-Bench project.
    ```
 
 ## Training
-The trianing profiles will be saved to the `$PSCRATCH/torchtitan_outputs/profile_trace/` directory
-
 ### Single Node Training
 Run 
 ```
@@ -57,13 +55,13 @@ Make sure to update llama3_8b.toml to ensure you have the correct config. Then, 
 bash multinode_trainer.slurm
 ```
 
-The default behavior is to run with the NCCL communication backend. If you want to run with the GLOO communication backend, add the following flag to the previous command ` --comm.backend gloo`.
+The default behavior is to run with the NCCL communication backend. If you want to run with the GLOO communication backend, add the following flag to the previous command ` --comm.backend gloo`. Alternatively, you can modify the [comm] section of the toml file (see llama3_8b.toml for reference).
 
 ## Extract the metrics
 cd to the root of this repo and run `python nsys_analyzer.py <profile_dir> --config <config_file>`
 
-For me, this command looked as follows:
-`python nsys_analyzer.py $PSCRATCH/torchtitan_outputs/profile_trace/llama3_8B_dp1_tp1_ngpu8/iteration_10/ --config torchtitan/torchtitan/models/llama3/train_configs/llama3_8b.toml `
+For example:
+`python nsys_analyzer.py ./torchtitan/outputs/profile_trace/llama3_8B_dp8_tp1_ngpu8/iteration_10/ --config ./torchtitan/torchtitan/models/llama3/train_configs/llama3_8b.toml`
 
 ## Notes:
 - On a successful run the last message should be `Process group destroyed` — this is not an error.
