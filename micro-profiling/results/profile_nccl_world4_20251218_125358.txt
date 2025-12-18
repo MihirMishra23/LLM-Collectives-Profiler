@@ -1,0 +1,52 @@
+
+================================================================================
+Configuration: DP=1, TP=4
+Backend: nccl (torch.distributed)
+World Size: 4
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     0.088 ms | AlgBW: 66.22 GB/s | BusBW: 44.14 GB/s
+  AllGather:     0.182 ms | AlgBW: 16.13 GB/s | BusBW: 16.13 GB/s
+  ReduceScatter: 0.177 ms | AlgBW: 16.56 GB/s | BusBW: 16.56 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     0.210 ms | AlgBW: 111.82 GB/s | BusBW: 74.55 GB/s
+  AllGather:     0.492 ms | AlgBW: 23.81 GB/s | BusBW: 23.81 GB/s
+  ReduceScatter: 0.465 ms | AlgBW: 25.22 GB/s | BusBW: 25.22 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     0.571 ms | AlgBW: 164.23 GB/s | BusBW: 109.49 GB/s
+  AllGather:     1.545 ms | AlgBW: 30.34 GB/s | BusBW: 30.34 GB/s
+  ReduceScatter: 1.477 ms | AlgBW: 31.73 GB/s | BusBW: 31.73 GB/s
+
+Skipping DP=1, TP=8 (requires 8 ranks, have 4)
+
+================================================================================
+Configuration: DP=2, TP=2
+Backend: nccl (torch.distributed)
+World Size: 4
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     0.074 ms | AlgBW: 79.33 GB/s | BusBW: 52.89 GB/s
+  AllGather:     0.153 ms | AlgBW: 19.13 GB/s | BusBW: 19.13 GB/s
+  ReduceScatter: 0.150 ms | AlgBW: 19.47 GB/s | BusBW: 19.47 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     0.179 ms | AlgBW: 130.96 GB/s | BusBW: 87.31 GB/s
+  AllGather:     0.442 ms | AlgBW: 26.50 GB/s | BusBW: 26.50 GB/s
+  ReduceScatter: 0.421 ms | AlgBW: 27.86 GB/s | BusBW: 27.86 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     0.549 ms | AlgBW: 170.78 GB/s | BusBW: 113.85 GB/s
+  AllGather:     1.545 ms | AlgBW: 30.34 GB/s | BusBW: 30.34 GB/s
+  ReduceScatter: 1.475 ms | AlgBW: 31.78 GB/s | BusBW: 31.78 GB/s
+
+Skipping DP=4, TP=2 (requires 8 ranks, have 4)
+
+Skipping DP=2, TP=4 (requires 8 ranks, have 4)
+
+================================================================================
+Profiling Complete!
+================================================================================

@@ -1,0 +1,18 @@
+Profiling Results - 8 ranks
+Backend: ncclx
+============================================================
+
+Tensor 4.0 MB (1,048,576 elements)
+  AllReduce     1.257 ms
+  AllGather     6.404 ms
+  ReduceScatter 6.352 ms
+
+Tensor 16.0 MB (4,194,304 elements)
+  AllReduce     6.738 ms
+  AllGather     23.101 ms
+  ReduceScatter 22.423 ms
+
+Tensor 64.0 MB (16,777,216 elements)
+  AllReduce     23.377 ms
+  AllGather     89.812 ms
+  ReduceScatter 76.104 ms

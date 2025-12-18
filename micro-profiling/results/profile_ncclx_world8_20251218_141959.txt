@@ -1,0 +1,24 @@
+
+================================================================================
+Configuration: World Size=8
+Backend: ncclx (torchcomms)
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     1.325 ms | AlgBW: 5.16 GB/s | BusBW: 2.95 GB/s
+  AllGather:     6.771 ms | AlgBW: 0.50 GB/s | BusBW: 0.50 GB/s
+  ReduceScatter: 6.492 ms | AlgBW: 0.53 GB/s | BusBW: 0.53 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     7.121 ms | AlgBW: 3.84 GB/s | BusBW: 2.19 GB/s
+  AllGather:     23.890 ms | AlgBW: 0.57 GB/s | BusBW: 0.57 GB/s
+  ReduceScatter: 22.227 ms | AlgBW: 0.62 GB/s | BusBW: 0.62 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     24.092 ms | AlgBW: 4.54 GB/s | BusBW: 2.59 GB/s
+  AllGather:     94.147 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 78.202 ms | AlgBW: 0.70 GB/s | BusBW: 0.70 GB/s
+
+================================================================================
+Profiling Complete!
+================================================================================
