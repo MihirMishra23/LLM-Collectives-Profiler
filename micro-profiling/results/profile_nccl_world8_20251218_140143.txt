@@ -1,0 +1,71 @@
+
+Skipping DP=1, TP=4 (requires 4 ranks, have 8)
+
+================================================================================
+Configuration: DP=1, TP=8
+Backend: nccl (torch.distributed)
+World Size: 8
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     1.437 ms | AlgBW: 4.76 GB/s | BusBW: 2.72 GB/s
+  AllGather:     6.940 ms | AlgBW: 0.49 GB/s | BusBW: 0.49 GB/s
+  ReduceScatter: 6.955 ms | AlgBW: 0.49 GB/s | BusBW: 0.49 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     7.513 ms | AlgBW: 3.64 GB/s | BusBW: 2.08 GB/s
+  AllGather:     23.390 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 23.548 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     24.436 ms | AlgBW: 4.48 GB/s | BusBW: 2.56 GB/s
+  AllGather:     94.068 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 92.866 ms | AlgBW: 0.59 GB/s | BusBW: 0.59 GB/s
+
+Skipping DP=2, TP=2 (requires 4 ranks, have 8)
+
+================================================================================
+Configuration: DP=4, TP=2
+Backend: nccl (torch.distributed)
+World Size: 8
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     1.324 ms | AlgBW: 5.16 GB/s | BusBW: 2.95 GB/s
+  AllGather:     6.538 ms | AlgBW: 0.52 GB/s | BusBW: 0.52 GB/s
+  ReduceScatter: 6.664 ms | AlgBW: 0.51 GB/s | BusBW: 0.51 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     7.050 ms | AlgBW: 3.88 GB/s | BusBW: 2.22 GB/s
+  AllGather:     23.534 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 23.780 ms | AlgBW: 0.57 GB/s | BusBW: 0.57 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     24.237 ms | AlgBW: 4.51 GB/s | BusBW: 2.58 GB/s
+  AllGather:     93.261 ms | AlgBW: 0.59 GB/s | BusBW: 0.59 GB/s
+  ReduceScatter: 93.494 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+
+================================================================================
+Configuration: DP=2, TP=4
+Backend: nccl (torch.distributed)
+World Size: 8
+================================================================================
+
+Tensor Size: 1,048,576 elements (4.00 MB)
+  AllReduce:     1.305 ms | AlgBW: 5.24 GB/s | BusBW: 2.99 GB/s
+  AllGather:     6.474 ms | AlgBW: 0.53 GB/s | BusBW: 0.53 GB/s
+  ReduceScatter: 6.466 ms | AlgBW: 0.53 GB/s | BusBW: 0.53 GB/s
+
+Tensor Size: 4,194,304 elements (16.00 MB)
+  AllReduce:     6.900 ms | AlgBW: 3.96 GB/s | BusBW: 2.26 GB/s
+  AllGather:     23.436 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 24.131 ms | AlgBW: 0.57 GB/s | BusBW: 0.57 GB/s
+
+Tensor Size: 16,777,216 elements (64.00 MB)
+  AllReduce:     25.287 ms | AlgBW: 4.33 GB/s | BusBW: 2.47 GB/s
+  AllGather:     94.432 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+  ReduceScatter: 93.787 ms | AlgBW: 0.58 GB/s | BusBW: 0.58 GB/s
+
+================================================================================
+Profiling Complete!
+================================================================================
