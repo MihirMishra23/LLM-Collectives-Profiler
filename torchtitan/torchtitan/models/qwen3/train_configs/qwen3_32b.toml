@@ -5,9 +5,9 @@ dump_folder = "./outputs"
 description = "Qwen3 32B training"
 
 [profiling]
-enable_profiling = false
+enable_profiling = true
 save_traces_folder = "profile_trace"
-profile_freq = 100
+profile_freq = 10
 
 [metrics]
 log_freq = 10
@@ -26,18 +26,21 @@ lr = 8e-4
 eps = 1e-8
 
 [lr_scheduler]
-warmup_steps = 600  # lr scheduler warm up, 20% total steps
+warmup_steps = 11  # lr scheduler warm up, 20% total steps
 
 [training]
-local_batch_size = 2
-seq_len = 4096
+local_batch_size = 1
+seq_len = 2048
 max_norm = 1.0  # grad norm clipping
-steps = 3000
+steps = 11
 dataset = "c4"
+
+[comm]
+backend = "gloo"     # Literal['nccl', 'gloo', 'auto']
 
 [parallelism]
 data_parallel_replicate_degree = 1
-data_parallel_shard_degree = -1
+data_parallel_shard_degree = 16
 fsdp_reshard_after_forward = "default" # default / never / always
 tensor_parallel_degree = 1
 context_parallel_degree = 1
