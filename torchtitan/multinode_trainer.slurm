@@ -12,9 +12,9 @@
 
 #SBATCH --job-name=torchtitan_multi_node
 
-#SBATCH --ntasks=2
+#SBATCH --ntasks=4
 
-#SBATCH --nodes=2
+#SBATCH --nodes=4
 
 #SBATCH --gpus-per-task=4
 
@@ -62,10 +62,10 @@ export NCCL_BUFFSIZE=2097152
 #export TORCH_DIST_INIT_BARRIER=1
 export FI_EFA_SET_CUDA_SYNC_MEMOPS=0
 
-CONFIG_FILE=${CONFIG_FILE:-"./torchtitan/models/llama3/train_configs/llama3_8b.toml"}
+CONFIG_FILE=${CONFIG_FILE:-"./torchtitan/models/qwen3/train_configs/qwen3_32b.toml"}
 
 dcgmi profile --pause
 # adjust sbatch --ntasks and sbatch --nodes above and --nnodes below
 # to your specific node count, and update target launch file.
-srun torchrun --nnodes 2 --nproc_per_node 4 --rdzv_id 101 --rdzv_backend c10d --rdzv_endpoint "$head_node_ip:29500" -m torchtitan.train --job.config_file ${CONFIG_FILE} "$@"
+srun torchrun --nnodes 4 --nproc_per_node 4 --rdzv_id 101 --rdzv_backend c10d --rdzv_endpoint "$head_node_ip:29500" -m torchtitan.train --job.config_file ${CONFIG_FILE} "$@"
 dcgmi profile --resume
