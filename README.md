@@ -17,12 +17,13 @@ collect NCCL traces for the CCL-Bench project.
    pip install -e .
    pip install -r requirements.txt
    ```
-3. Download the model weights:
+3. Download the model weights (make sure you aren't sshed into a node for this step):
    ```
    python scripts/download_hf_assets.py --repo_id meta-llama/Llama-3.1-8B --assets tokenizer --hf_token <your token>
    ```
 
 ## Training
+The only parameters to change in the toml files are `data_parallel_shard_degree` and `tensor_parallel_degree`.
 ### Single Node Training
 Run 
 ```
@@ -41,6 +42,7 @@ Make sure to update llama3_8b.toml to ensure you have the correct config. Then, 
 The default behavior is to run with the NCCL communication backend. If you want to run with the GLOO communication backend, add the following flag to the previous command ` --comm.backend gloo`.
 
 ### Multi-Node Training
+Lines 65 and 70 are the only ones that need to be modified in `multinode_trainer.slurm`.
 Run 
 ```
 salloc --nodes 2 --qos interactive --time 01:00:00 --constraint gpu --gpus 8 --account m4999
