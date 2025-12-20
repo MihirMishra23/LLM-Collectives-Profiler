@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Profile AllReduce, AllGather, ReduceScatter on multi-node Slurm systems.
-Supports both torch.distributed (nccl/gloo) and torchcomms (ncclx).
-Tested for Perlmutter (NERSC).
-"""
-
 import os
 import time
 import argparse
@@ -20,11 +14,7 @@ try:
 except ImportError:
     TORCHCOMMS_AVAILABLE = False
 
-# -----------------------------
-# Slurm → torch.distributed FIX
-# -----------------------------
 def setup_slurm_env():
-    """Setup PyTorch distributed env vars from SLURM (if not already set)"""
     if "SLURM_PROCID" not in os.environ:
         return  # not running under Slurm
 
@@ -37,7 +27,6 @@ def setup_slurm_env():
     if "MASTER_ADDR" not in os.environ:
         master_addr = None
         
-        # Method 1: Try SLURM_STEP_NODELIST (available in srun context)
         if "SLURM_STEP_NODELIST" in os.environ:
             try:
                 import subprocess
@@ -53,7 +42,6 @@ def setup_slurm_env():
             except:
                 pass
         
-        # Method 2: Try SLURM_JOB_NODELIST
         if not master_addr and "SLURM_JOB_NODELIST" in os.environ:
             try:
                 import subprocess
@@ -69,7 +57,6 @@ def setup_slurm_env():
             except:
                 pass
         
-        # Method 3: Use scontrol show job
         if not master_addr and "SLURM_JOB_ID" in os.environ:
             try:
                 import subprocess
@@ -95,7 +82,6 @@ def setup_slurm_env():
             except:
                 pass
         
-        # Method 4: Fallback to SLURMD_NODENAME (rank 0 should be on first node)
         if not master_addr and "SLURMD_NODENAME" in os.environ and os.environ.get("SLURM_PROCID") == "0":
             master_addr = os.environ["SLURMD_NODENAME"]
         
@@ -105,9 +91,6 @@ def setup_slurm_env():
     os.environ.setdefault("MASTER_PORT", "29500")
 
 
-# -----------------------------
-# Profiler
-# -----------------------------
 class CollectiveProfiler:
     def __init__(self, backend: str, output_file: str):
         setup_slurm_env()
