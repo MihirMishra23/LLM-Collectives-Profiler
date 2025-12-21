@@ -7,7 +7,7 @@ import torch.distributed as dist
 from datetime import datetime, timedelta
 from typing import List
 
-# Try to import torchcomms for ncclx support
+
 try:
     from torchcomms import new_comm, ReduceOp
     TORCHCOMMS_AVAILABLE = True
@@ -254,9 +254,6 @@ class CollectiveProfiler:
             dist.destroy_process_group()
 
 
-# -----------------------------
-# Main
-# -----------------------------
 def main():
     parser = argparse.ArgumentParser(description="Profile collective communications")
     parser.add_argument("--backend", default="nccl", choices=["nccl", "ncclx", "gloo"], 
