@@ -276,12 +276,6 @@ def main():
     # Check if ncclx is requested but torchcomms not available
     rank = int(os.environ.get("RANK", "0"))
     world_size = int(os.environ.get("WORLD_SIZE", "1"))
-    
-    if args.backend == "ncclx" and not TORCHCOMMS_AVAILABLE:
-        if rank == 0:
-            print("ERROR: ncclx backend requested but torchcomms is not installed.")
-            print("Please install torchcomms or use 'nccl' backend instead.")
-        exit(1)
 
     # Create output directory if it doesn't exist
     if rank == 0:
